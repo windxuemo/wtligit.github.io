@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>一些重要的东西 | Page of Wentao Li</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">一些重要的东西</h1><a id="logo" href="/.">Page of Wentao Li</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">一些重要的东西</h1><div class="post-meta">Mar 24, 2018</div><a class="disqus-comment-count" data-disqus-identifier="2018/03/24/someimportant/" href="/2018/03/24/someimportant/#disqus_thread"></a><div class="post-content"><p>1，C++ 在继承中虚函数、纯虚函数、普通函数，三者的区别<br><strong>虚函数</strong>：C++的虚函数主要作用是“运行时多态”，父类中提供虚函数的实现，为子类提供默认的函数实现。子类可以重写父类的虚函数实现子类的特殊化。<br><strong>纯虚函数</strong>：C++中包含纯虚函数的类，被称为是“抽象类”。抽象类不能使用new出对象，只有实现了这个纯虚函数的子类才能new出对象。C++中的纯虚函数更像是“只提供申明，没有实现”，是对子类的约束，是“接口继承”。C++中的纯虚函数也是一种“运行时多态”。<strong>在函数形参表偶后面写上=0以指定纯虚函数</strong><br><strong>普通函数</strong>：普通函数是静态编译的，没有运行时多态，只会根据指针或引用的“字面值”类对象，调用自己的普通函数。普通函数是父类为子类提供的“强制实现”。</p>
+<p>2，C++中构造函数，拷贝构造函数和赋值函数的区别和实现<br><strong>构造函数</strong>：构造函数是一种特殊的类成员函数，是当创建一个类的对象时，它被调用来对类的数据成员进行初始化和分配内存。构造函数可以被重载，可以多个，可以带参数。<br><strong>拷贝构造函数</strong>：拷贝构造函数是C++独有的，它是一种特殊的构造函数，用基于同一类的一个对象构造和初始化另一个对象。当没有重载拷贝构造函数时，通过默认拷贝构造函数来创建一个对象<br>A a;</p>
+<p>A b(a);</p>
+<p>A b=a;  都是拷贝构造函数来创建对象b</p>
+<p>强调：这里b对象是不存在的，是用a 对象来构造和初始化b的！！<br>先说下什么时候拷贝构造函数会被调用：</p>
+<p>在C++中，3种对象需要复制，此时拷贝构造函数会被调用</p>
+<p>1）一个对象以<strong>值传递</strong>的方式传入函数体</p>
+<p>2）一个对象以值传递的方式从函数返回</p>
+<p>3）一个对象需要通过另一个对象进行初始化<br><strong>赋值函数</strong>：当一个类的对象向该类的另一个对象赋值时，就会用到该类的赋值函数。</p>
+<p>当没有重载赋值函数（赋值运算符）时，通过默认赋值函数来进行赋值操作</p>
+<p>A a;</p>
+<p>A b;</p>
+<p>b=a; </p>
+<p>强调：这里a,b对象是已经存在的，是用a 对象来赋值给b的！！</p>
+<p>3，const修饰问题<br>1）const修饰指针的四种情况：<br>int b = 500;<br>const int<em> a = &b;  // 情况1<br>int const </em>a = &b; // 情况2<br>int<em> const a = &b; //情况3<br>const int</em> const a = &b; // 情况4<br>1.对于情况1，const位于星号的左侧，则const就是用来修饰指针所指向的变量，即指针指向的为常量；如果const位于星号的右侧，则const修饰的是指针本身，即指针本身是常量。因此情况1而情况2是相同的。都是指针指向的内容为常量，这种情况下不允许对内容进行更改。<br>2.情况2与情况1相同<br>3.情况3为指针本身是常量，这种情况下不能对指针本身进行更改，而指针指向的内容是可以更改的。也即指针指向固定的内存位置，而这个位置具体存储什么值是可变的。这种情况下，指针在定义的时候就必须初始化（原因显而易见，定义之后指针的值就不能再改变，因此不能再对指针本身进行赋值操作了）<br>4.情况4为指针本身和指向的内容均为常量。表明指针本身的值和指向内容的值都不能更改。</p>
+<p>const修饰成员函数的情况：<br>用const放在成员函数的括号之后，用来表明该成员函数不会对任何类的成员变量进行修改，原则上说任何不对成员变量进行修改的成员函数都应该声明称const，这样有助于提高代码的可读性和可靠性。</p>
+<p>const放在函数声明之前表明该函数的返回值时常量。</p>
+<p>在c++中const还可以用来定义常量，const定义常量对比#define的有点在于const有数据类型，编译器会对const定义的常量做类型检查。另外，有些调试工具可以对const常量进行调试而不会对宏常量进行调试。</p>
+<p>4，#define和const的区别<br>角度1：<br>就定义常量说的话：<br>const 定义的常数是变量 也带类型， #define 定义的只是个常数 不带类型。</p>
+<p>角度2：<br>就起作用的阶段而言：<br>define是在编译的预处理阶段起作用，而const是在 编译、运行的时候起作用。</p>
+<p>角度3：<br>就起作用的方式而言：<br>define只是简单的字符串替换，没有类型检查。而const有对应的数据类型，是要进行判断的，可以避免一些低级的错误。</p>
+<p>角度4：<br>就空间占用而言：<br>define占用代码段空间，const占用数据段空间</p>
+<p>5，C++的四种强制类型转换形式<br>1) static_cast<br>在C++语言中static_cast用于数据类型的强制转换，强制将一种数据类型转换为另一种数据类型。例如将整型数据转换为浮点型数据。<br>2) const_cast<br>在C语言中，const限定符通常被用来限定变量，用于表示该变量的值不能被修改。<br>而const_cast则正是用于强制去掉这种不能被修改的常数特性，但需要特别注意的是const_cast不是用于去除变量的常量性，而是去除指向常数对象的指针或引用的常量性，其去除常量性的对象必须为指针或引用。<br>3) reinterpret_cast<br>在C++语言中，reinterpret_cast主要有三种强制转换用途：改变指针或引用的类型、将指针或引用转换为一个足够长度的整形、将整型转换为指针或引用类型。<br>4) dynamic_cast<br>（1）其他三种都是编译时完成的，dynamic_cast是运行时处理的，运行时要进行类型检查。</p>
+<p>（2）不能用于内置的基本数据类型的强制转换。</p>
+<p>（3）dynamic_cast转换如果成功的话返回的是指向类的指针或引用，转换失败的话则会返回NULL。</p>
+<p>（4）使用dynamic_cast进行转换的，基类中一定要有虚函数，否则编译不通过。</p>
+<p>6，堆栈，全局变量与局部变量<br><a href="https://www.cnblogs.com/binxindoudou/archive/2013/04/20/3032119.html" target="_blank" rel="noopener">https://www.cnblogs.com/binxindoudou/archive/2013/04/20/3032119.html</a><br><img src="http://static.zybuluo.com/vincentlins/nivejtgj41psauf11pcwhoaj/image_1c9arn90v50q56r1nd113an269p.png" alt="image_1c9arn90v50q56r1nd113an269p.png-36.2kB"></p>
+<p>7， TCP的状态转换11种状态？有哪些？time_wait状态。<br><img src="http://static.zybuluo.com/vincentlins/ulymis5cvohq2krkf3tsex3g/image_1c9as0lqjka212aah61hvf155o1m.png" alt="image_1c9as0lqjka212aah61hvf155o1m.png-298.8kB"><br>可以很明显的看到，在通信双方，客户端，服务端的状态变化过程</p>
+<p>有人可能会说：我们上面不是说，有11中状态吗？？为什么到啦这里变成了只有10中（1,（主动打开：SYN_SENT） 2,ESTABLISHED 3,(主动关闭：FIN_WAIT_1) 4,FIN_WAIT_25,TIME_WAIT 6,SYN_RCVD 7,CLOSE_WAIT(被动关闭) 8，LAST_ACK 9,CLOSED10,LISTEN)为什么不是11个呢？？？</p>
+<p>哈哈，其实还有一种状态叫做：CLOSING（这个状态产生的原因比较特殊，后面分析）</p>
+<p>接下来我们分析一下，这些状态的变化过程，，，</p>
+<p>主动套接口：用来发起连接 被动套接口：用来接受连接</p>
+<p>1，对于服务器端来说:</p>
+<p>当调用socket函数创建一个套接字时，状态是CLOSED，它被假设为一个主动套接字，也就是说，它是一个将调用connect发起连接的客户套接字。listen函数把一个未连接的套接字转化成一个被动套接字，指示内核应接受指向该套接字的连接请求。结合TCP的状态转化图：</p>
+<p>调用listen函数导致套接字从：CLOSED状态转化为：LISTEN状态</p>
+<p>2，对于客户端来说：</p>
+<p>调用socket函数创建一个套接口时，状态也是CLOSED，同样的，它也被假设为一个主动套接字，紧接着，调用connect主动打开套接口，并且一直阻塞着，等待三次握手的完成，我们把这个状态称之为：主动套接口。</p>
+<p>当客户端发起了三次握手的第一次（SYN J，MSS = 536）的时候，套接口的状态变成了：SYN_SENT(主动打开)</p>
+<p>3，对于服务器端而言，调用了listen之后，然后状态就变成了LISTEN状态，接着调用accept函数，使自身一直保持阻塞的状态，直到三次握手的第一次来到（来自TCP协议栈的TCP的第一个分节），即接收到（SYN J，MSS = 536），此刻状态由：LISTEN转变为SYN_RCVD</p>
+<p>4，对于客户端来说，刚才发送了TCP协议栈中TCP三次握手的第一个分节，此刻应该接受来自服务器发送过来的TCP三次握手的第二个分节，这时服务器发送过来：（SYN K， ACK J+1， MSS = 1460），此刻，服务器的状态不变，还是SYN_RCVD,然后，客户端接受服务器发送过来的TCP三次握手的第二次分节，此刻状态由之前的：SYN_SENT转变为ESTABLISHED，（客户端已经建立完成），这时，connect函数返回</p>
+<p>5，然后客户端保持ESTABLISHED状态，并且发出TCP协议栈中TCP三次握手的第三个分节（ACK K+1）服务端的状态由：SYN_RCVD转变为：ESTABLISHED，从未完成的队列中取出队首的第一个连接放在已完成队列，这样accept函数就会返回。</p>
+<p>此刻，两者都建立完成，这个时候可以完成通信了</p>
+<p>6，那么接下来就是连接终止的四次握手，，，</p>
+<p>当双方都变成ESTABLISHED状态之后，双方就可以通信了，在双方通信的过程中，由于状态都没有变化，所以这里，我们暂且不讨论。在通信的时候呢，双方都可以主动发起关闭，那么：我们假定客户端发起一个关闭请求（调用close函数）：会向服务端发送一个TCP分节（TCP协议栈中四次握手的的第一个分节：FIN M），然后客户端的状态会变成：FIN_WAIT_1(主动关闭)，此刻，服务端接收到这个TCP分节后，并且会对刚才发过来的连接进行确认（ACK M+1），，服务端的状态会变成 CLOSE_WAIT(被动关闭)，当，客户端接收到这个确认之后（ACK M+1），客户端的状态转变为：FIN_WAIT_2 , 只有当服务端的read函数返回为0的时候，服务端才需要，也是才可以发起关闭请求（FINN），发送完成之后，就变成了：LAST_ACK, 当客户端接受到了这个关闭请求之后，状态会变成了：TIME_WAIT（会经过2MSL（TCP报文端最大生存周期的两倍时间）之后，转变为：CLOSED），紧接着客户端会发送最后一次确认：（ACK N+1）,等到服务端接收到这个确认后，服务端的状态会变成：CLOSED</p>
+<p>关于CLOSING：</p>
+<p>该状态产生的原因是：对于客户端和服务端而言，两者同时关闭的情况（这种情况并不多见）</p>
+<p>关于TIME_WAIT:</p>
+<p>1，我们可以从上面的状态分析中得知，对于TIME_WAIT状态而言，是执行主动关闭的那端经历了这个状态。该端点停留在这个状态的持续时间是最长分节生命期（MAXIMUM SEGMENT LIFETIME， msl）的两倍，有时候称之为：2MSL</p>
+<p>任何TCP实现都必须为MSL选择一个值，RFC1122的建议值是2分钟，而源自Berkeley的实现传统上改用30秒这个值，又因为：信息的传送是需要一个来回，着也就说明，TIME_WAIT状态的持续时间是1分钟到4分钟之间。而MSL是任何IP数据报能够在因特网中存活的最长时间。我们也知道这个时间是有限的，因为每个数据报含有一个跳限（hop limit）的8位字段，它的最大值是255。尽管这是一个跳数限制而不是真正的时间限制，我们仍然假设：具有最大跳限（255）的分组在网络中存在的时间不可能超过MSL秒。。。。。</p>
+<p>分组在网络中“迷途”通常是路由异路的结果。某个路由器崩溃或某两个路由器之间的某个链路断开时，路由协议需要花数秒钟到数分钟的时间才能稳定并找出另一条通路。在这段时间内可能发生路由循环（路由器A把分组发送给路由器B，而B再把它们发送给A），我们关心的分组可能就此陷入这样的循环。</p>
+<p>假设迷途的分组是一个TCP分节，在它迷途期间，发送端TCP超时重传该分组，而重传的分组却通过某条候选路径到达最终目的。然而不久后（自迷途的分组开始其旅程起最多MSL秒以内）路由循环修复，早先迷失在这个循环中的分组最终也被送到目的地。TCP必须正确处理这些重复的分组。</p>
+<p>TIME_WAIT状态存在的两个理由：MSL是任何IP数据报能够在因特网中存活的最长时间</p>
+<p>1，可靠的实现TCP全双工连接的终止（更好的完善TCP的可靠性）</p>
+<p>2，允许老的重复分节在网络中消逝</p>
+<p>关于第一点：假设最终的ACK丢失了来解释（并不能保证传输的可靠行）。服务器将重新发送它的最终的那个FIN， 因此客户必须维护状态信息，以允许它重新发送那个ACK。要是客户不维护状态信息，它将响应以一个RST（另外一种类型的TCP分节），该分节将被服务器解释成一个错误。如果TCP打算执行所有必要的工作以彻底终止某个连接上两个方向的数据流（即全双工关闭），那么它必须正确处理连接终止序列4个分节中任何一个分节丢失的情况。本例子也说明了为什么执行主动关闭的那一端是处于TIME_WAIT的那一端;因为可能不得不重传最终的那个ACK的就是那一端。</p>
+<p>关于第二点：我们假设在12.106.32.254的1500端口和206.168.112.219的21端口之间有一个TCP连接。我们关闭这个连接，过一段时间后在相同的IP地址和端口之间建立另一个连接。后一个连接称为前一个连接的化身，因为他们的IP地址和端口号相同。TCP必须防止来自某个连接的老的重复分组在该连接已终止后再现，从而被误解成属于同一个连接的某个新的化身。为做到这一点，TCP将不给处于TIME_WAIT状态的连接发起新的化身。既然TIME_WAIT状态的持续时间是MSL的2倍，这就足矣让某个方向上的分组最多存活MSL秒即被丢弃，另一个方向上的应答最多存活MSL秒也被丢弃。通过实施这个规则，我们就能保证每成功建立一个TCP连接时，来自该连接先前化身的老的重复分组都已在网络中消逝了。。。。</p>
+<p>8，Linux 线程同步的三种方法：互斥锁，信号量和条件变量<br><img src="http://static.zybuluo.com/vincentlins/rmptson4kyylpiz0nd1kijc9/image_1c9aua2c51te11afe18ieg24oev9.png" alt="image_1c9aua2c51te11afe18ieg24oev9.png-29.9kB"><br>互斥锁防止多个线程同时读写某一块内存区域<br><img src="http://static.zybuluo.com/vincentlins/gpyeu2vv96h16mnqt712wk20/image_1c9aujqi6109d1npgs4n1q291p2mm.png" alt="image_1c9aujqi6109d1npgs4n1q291p2mm.png-28.3kB"><br>信号量保证多个线程不会互相冲突，可以看出互斥锁是信号量的一种特殊情况</p>
+<p>如果说互斥锁是用于同步线程对共享数据的访问的话，那么条件变量则是用于在线程之间同步共享数据的值。条件变量提供了一种线程间的通知机制：当某个共享数据达到某个值的时候，唤醒等待这个共享数据的线程。<br>互斥锁的目的是为了独占，条件变量的目的是为了等待和通知<br>条件变量特别适用于多个线程等待某个条件的发生。如果不使用条件变量，那么每个线程就需要不断尝试获得互斥锁并检查条件是否发生，这样大大浪费了系统的资源</p>
+<p>读写锁：<br>读写锁的出现能够有效的解决多进程并行读的问题。每一个需要读取的进程都申请读锁，这样大家互不干扰。当有进程需要写如数据时，首先申请写锁。如果在申请时发现有读(或者写)锁存在，则该写进程必须等待，一直等到所有的读(写)锁完全释放为止。读进程在读取之前首先申请读锁，如果所读数据被写锁锁定，则该读进程也必须等待读锁被释放位置。很自然的，多个读锁是可以共存的，但写锁是完全互相排斥的。</p>
+<p>9，linux进程同步的方法：原子操作，信号量（临界区互斥），管程，临界资源</p>
+<p>10，linux进程间通信：管道，信号量，消息队列，信号，共享内存，套接字<br>我们必须用其他辅助手段来同步进程对共享内存的访问，否则会产生竞态条件<br>管道，两个管道文件描述符fd0和fd1，管道只能用于有关联的两个进程，如父子进城间的通信<br>有一种特殊管道称为FIFO，命名管道，也能用于无关联进程之间的通信<br>消息队列是在两个进程之间传递二进制块数据的一种简单有效的方式。每个数据块都有一个特定的类型，接收方可以根据类型来有选择地接收数据，而不一定像管道和命名管道那样必须以先进先出的方式接收数据</p>
+<p>11，linux线程间的通信：锁（互斥锁，读写锁，条件变量），信号量机制，信号机制<br>线程间通信的主要目的是用于线程同步，所以线程没有象进程通信中用于数据交换的通信机制</p>
+<p>12，HTTP状态码：1xx信息；2xx成功；3xx重定向；4xx客户端错误；5xx服务器错误</p>
+<p>13，经典同步问题<br>生产者消费者问题：一组生产者进程和消费者进程共享一个初始为空大小为n的缓冲区，只有缓冲区没满时，生产者才能把消息放入到缓冲区，否则必须等待；只有缓冲区不空时，消费者才能从中取出消息，否则必须等待。由于缓冲区是临界资源，它只允许一个生产者放入消息，或者一个消费者从中取出消息。<br>读者写者问题：有读者和写者两组并发进程，共享一个文件，当两个或以上的读进程同时访问共享数据时不会产生副作用，但若某个写进程和其他进程同时访问共享数据时则可能导致数据不一致的错误<br>哲学家进餐问题：哲学家拿左右两根筷子，一根一根拿起，如果筷子已经在他人手上，则需等待，只有拿到两根筷子才进餐。解决方法：一次拿两根筷子或者对动作限制，避免饥饿和死锁。</p>
+</div><div class="tags"></div><div class="post-nav"><a class="next" href="/2018/03/23/tecent/">腾讯2018年三月机试测试题</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button></div><script>var disqus_shortname = 'wtli';
+var disqus_identifier = '2018/03/24/someimportant/';
+var disqus_title = '一些重要的东西';
+var disqus_url = 'http://yoursite.com/2018/03/24/someimportant/';
+$('.btn_click_load').click(function() {
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+  $('.btn_click_load').css('display','none');
+});
+$.ajax({
+  url: 'https://disqus.com/next/config.json',
+  timeout: 3000,
+  type: 'GET',
+  success: (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    $('.btn_click_load').css('display','none');
+  })(),
+  error: function() {
+    $('.btn_click_load').css('display','block');
+  }
+});</script><script id="dsq-count-scr" src="//wtli.disqus.com/count.js" async></script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://yoursite.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/24/someimportant/">一些重要的东西</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/23/tecent/">腾讯2018年三月机试测试题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/21/linux/">高性能服务器编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/19/classical/">经典问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/17/queueStack/">队列与栈的基本操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/16/treeConstruct/">树的重建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/16/LCS/">LCS</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/15/treeTraverse/">二叉树的四种遍历</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/12/C++/">C++知识汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/11/Sort/">数据结构中十种经典排序方法汇总(C++)</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> 最近评论</i></div><script type="text/javascript" src="//wtli.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://github.com/wtligit" title="GitHub" target="_blank">GitHub</a><ul></ul><a href="http://blog.csdn.net/potatostyles" title="CSDN" target="_blank">CSDN</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">Page of Wentao Li.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
